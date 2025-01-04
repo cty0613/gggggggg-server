@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Model } from 'mongoose';
-import { Book } from './schemas/books.schema';
+import { Book } from '../schemas/books.schema';
 import { CreateBookDto } from './dto/create-books.dto';
 
 @Injectable()
