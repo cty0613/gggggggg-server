@@ -4,16 +4,16 @@ import { Document } from 'mongoose';
 @Schema()
 export class User extends Document {
     @Prop({ required: true })
-    baseId: number;
+    userId: string;
 
     @Prop({ required: true })
-    userId: string;
+    password: string;
 
     @Prop({ required: true })
     authType: string;
 
     @Prop({ required: true })
-    password: string;
+    pageId: string;
 
 }
 

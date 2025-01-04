@@ -1,19 +1,19 @@
 import { IsString, IsNumber, IsNotEmpty } from 'class-validator';
 
 export class CreateUserDto {
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
-  baseId: number;
+  readonly userId: string;
 
   @IsString()
   @IsNotEmpty()
-  userId: string;
+  readonly password: string;
 
   @IsString()
   @IsNotEmpty()
-  password: string;
+  readonly authType: string;
 
   @IsString()
   @IsNotEmpty()
-  auth: string;
+  readonly pageId: string; // random UUID
 }
