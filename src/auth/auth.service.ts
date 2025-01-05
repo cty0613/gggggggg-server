@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 
 import { User } from 'src/schemas/users.schema';
 import * as bcrypt from 'bcrypt';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -18,9 +19,9 @@ export class AuthService {
         return this.userModel.findOne({ userId }).exec();
     }
 
-    async validateUser(userId: string, password: string): Promise<any> {
-        const user = await this.findUser(userId);
-        if (user && (await bcrypt.compare(password, user.password))) {
+    async validateUser(loginData: LoginDto): Promise<any> {
+        const user = await this.findUser(loginData.userId);
+        if (user && (await bcrypt.compare(loginData.password, user.password))) {
           const { password, ...result } = user.toObject();
           return result;
         }
