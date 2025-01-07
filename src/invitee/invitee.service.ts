@@ -1,19 +1,19 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UseGuards } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { CreateUserDto } from './dto/create-users.dto';
-import { User } from '../schemas/users.schema';
+import { CreateInviteeDto } from './dto/create-invitee.dto';
+import { Invitee } from '../schemas/invitee.schema';
 
 @Injectable()
-export class UsersService {
-    constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+export class InviteeService {
+    constructor(@InjectModel(Invitee.name) private userModel: Model<Invitee>) {}
 
-    async findAllInvitees(): Promise<User[]> {
+    async findAllUsers(): Promise<Invitee[]> {
         return this.userModel.find().exec();
     }
 
-    async findOneInvitee(userId: string): Promise<User> {
+    async findUser(userId: string): Promise<Invitee> {
         const user = await this.userModel.findOne({ userId }).exec();
         console.log(user);
         if (!user) {
@@ -22,7 +22,7 @@ export class UsersService {
         return user;
     }
 
-    async createInvitee(userData: CreateUserDto): Promise<User> {
+    async createUser(userData: CreateInviteeDto): Promise<Invitee> {
         const isExist = await this.userModel.findOne({ userId: userData.userId }).exec();
         if (isExist) {
             throw new BadRequestException(`User ID ${userData.userId} is already exist`);
@@ -31,8 +31,8 @@ export class UsersService {
         return newUser.save();
     }
 
-    async deleteInvitee(userId: string): Promise<User> {
-        const deletedUser = this.findOneInvitee(userId);
+    async deleteUser(userId: string): Promise<Invitee> {
+        const deletedUser = this.findUser(userId);
         this.userModel.deleteOne({ userId : userId }).exec();
 
         return deletedUser;
